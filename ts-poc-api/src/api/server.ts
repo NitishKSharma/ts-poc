@@ -11,6 +11,8 @@ import { DefaultDbConnectionFactory } from "../data/factories/default-db-connect
 import { KnexPgDb, KnexPgUnitOfWork } from "@nivinjoseph/n-data";
 import { DbTodoRepository } from "../data/repositories/db-todo-repository";
 import { SystemDomainContext } from "@nivinjoseph/n-domain";
+import { DbContactRepository } from "../data/repositories/db-contact-repository";
+import { DefaultContactFactory } from "../domain/factories/default-contact-factory";
 
 
 class Installer implements ComponentInstaller
@@ -24,6 +26,8 @@ class Installer implements ComponentInstaller
             .registerInstance("DomainContext", new SystemDomainContext())
             .registerSingleton("TodoRepository", DbTodoRepository)
             .registerSingleton("TodoFactory", DefaultTodoFactory)
+            .registerSingleton("ContactRepository", DbContactRepository)
+            .registerSingleton("ContactFactory", DefaultContactFactory)
             .registerSingleton("Logger", ConsoleLogger)
             .registerSingleton("DbConnectionFactory", DefaultDbConnectionFactory)
             .registerSingleton("Db", KnexPgDb)

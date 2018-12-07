@@ -13,6 +13,14 @@ const sql = `
         updated_at bigint not null,
         data jsonb not null
     );
+    create table contacts
+    (
+        id varchar (48) primary key,
+        version int not null,
+        created_at bigint not null,
+        updated_at bigint not null,
+        data jsonb not null
+    );
 `;
 
 db.executeCommand(sql)
