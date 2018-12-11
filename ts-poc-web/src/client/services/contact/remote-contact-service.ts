@@ -23,7 +23,7 @@ export class RemoteContactService implements ContactService
         let apiUrl = ConfigurationManager.getConfig<string>("apiUrl").trim();
         if (!apiUrl.endsWith("/"))
             apiUrl += "/";
-        
+
         this._api = Axios.default.create({
             timeout: 60000,
             baseURL: apiUrl
@@ -79,6 +79,7 @@ export class RemoteContactService implements ContactService
 
     public async createContact(fullName: string, phone: number, email: string): Promise<Contact>
     {
+
         given(fullName, "fullName").ensureHasValue().ensureIsString();
         given(phone, "phone").ensureIsNumber();
         given(email, "email").ensureIsString();
@@ -113,9 +114,8 @@ export class RemoteContactService implements ContactService
     {
         given(id, "id").ensureHasValue().ensureIsString();
         given(fullName, "fullName").ensureHasValue().ensureIsString();
-        given(phone, "phone").ensureHasValue().ensureIsNumber();
-        given(email, "email").ensureHasValue().ensureIsString();
-
+        given(phone, "phone").ensureIsNumber();
+        given(email, "email").ensureIsString();
         const command = {
             id: id.trim().toLowerCase(),
             fullName: fullName.trim(),
@@ -141,7 +141,7 @@ export class RemoteContactService implements ContactService
         }
     }
 
-    public async setAsEmployee(id: string): Promise<void>
+    public async toggleEmployeeStatus(id: string, employeeStatus: boolean): Promise<void>
     {
         given(id, "id").ensureHasValue().ensureIsString();
 
@@ -153,24 +153,28 @@ export class RemoteContactService implements ContactService
 
         try
         {
-            // @ts-ignore
-            const response = await this._api.post("api/command/setContactEmployee", command);
-            this._dialogService.showSuccessMessage("Successfully set as employee.");
+            if (employeeStatus)
+            {
+                // @ts-ignore
+                const response = await this._api.post("api/command/setContactEmployee", command);
+                this._dialogService.showSuccessMessage("Successfully hired.");
+            }
+            else
+            {
+                // @ts-ignore
+                const response = await this._api.post("api/command/unSetContactEmployee", command);
+                this._dialogService.showSuccessMessage("Successfully fired.");
+            }
         }
         catch (error)
         {
             this.showErrorMessage(error.response.status);
-            throw error;            
+            throw error;
         }
         finally
         {
             this._dialogService.hideLoadingScreen();
         }
-    }
-
-    public async unSetAsEmployee(): Promise<void>
-    {
-
     }
 
     public async deleteContact(id: string): Promise<void>

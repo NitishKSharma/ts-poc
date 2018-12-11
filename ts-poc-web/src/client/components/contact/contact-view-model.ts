@@ -4,6 +4,7 @@ import { ContactService } from "../../services/contact/contact-service";
 import { Contact } from "../../models/contact";
 import { given } from "@nivinjoseph/n-defensive";
 import * as Routes from "../../pages/routes";
+import "./contact-view.scss";
 
 @template(require("./contact-view.html"))
 @element("contact")
@@ -27,11 +28,20 @@ export class ContactViewModel extends ComponentViewModel
     }
 
 
-    public setEmployee(): void
+    public toggleEmployeeStatus(): void
     {
-        this._contactService.setAsEmployee(this.contact.id)
-            .then(() => this.contact.isEmployee = true)
-            .catch(e => console.log(e));
+        if (!this.contact.isEmployee)
+        {
+            this._contactService.toggleEmployeeStatus(this.contact.id, !this.contact.isEmployee)
+                .then(() => this.contact.isEmployee = true)
+                .catch(e => console.log(e));
+        }
+        else
+        {
+            this._contactService.toggleEmployeeStatus(this.contact.id, !this.contact.isEmployee)
+                .then(() => this.contact.isEmployee = false)
+                .catch(e => console.log(e));
+        }
     }
 
     public editContact(): void

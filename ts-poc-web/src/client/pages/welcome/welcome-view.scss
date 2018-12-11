@@ -1,9 +1,25 @@
 .welcome-view
 {
-    padding: 100p;
+    // padding: 100px;
+    min-height: 100%;
 
-    .standard-button
-    {
-        margin: 50px;
-    }
+    align-content: center;
+    text-align: center;
+
+    height: 100%;
+    width: 100%;
+
+    top:0px;
+    left:0px;
+
+    position: fixed;
+    z-index:1000; 
+    
+}
+
+.tile
+{
+    padding: 25px;
+    margin: 25px;
+    display: inline-block;    
 }

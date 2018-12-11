@@ -1,12 +1,33 @@
-<div class="welcome-view">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <div class=control>
-                <router-link to="/manageContacts" class="button is-primary standard-button">Contact Manager</router-link>
-            </div>
-            <div class=control>
-                <router-link to="/manage" class="button is-primary standard-button">Todo Manager</router-link>
+<!-- <div class="welcome-view"> -->
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation"> -->
+<!-- <div class="tile is-ancestor">
+        <div class="tile is-horizontal is-8">
+            <div class="tile">
+                <div class="tile is-parent is-horizontal">
+                    <article class="tile is-child notification is-primary">
+                        <route-link to="/manageContacts">Contact Manager</route-link>
+                    </article>
+                    <article class="tile is-child notification is-primary">
+                        <route-link to="/manage">ToDo Manager</route-link>
+                    </article> -->
+<!-- <div class=tile>
+                        <router-link to="/manageContacts" class="button is-primary standard-button">Contact Manager</router-link>
+                    </div>
+                    <div class=tile>
+                        <router-link to="/manage" class="button is-primary standard-button">Todo Manager</router-link>
+                    </div> -->
+<!-- </div>
             </div>
         </div>
-    </nav>
+    </div> -->
+<!-- </nav> -->
+<!-- </div> -->
+<div class="welcome-view">
+    <div class="tile is-ancestor">
+        <div class="tile is-4 is-vertical is-parent">
+            <router-link to="/manageContacts" class="tile is-child notification is-warning box ">Contact Manager</router-link>
+            <router-link to="/manage" class="tile is-child notification is-info box ">To Do Manager
+            </router-link>
+        </div>
+    </div>
 </div>

@@ -6,7 +6,8 @@ export interface ContactService
     getContact(id: string): Promise<Contact>;
     createContact(fullName: string, phone: number, email: string): Promise<Contact>;
     updateContact(id: string, fullName: string, phone: number, email: string): Promise<void>;
-    setAsEmployee(id: string): Promise<void>;
-    unSetAsEmployee(id: string): Promise<void>;
+    // setAsEmployee(id: string): Promise<void>;
+    // unSetAsEmployee(id: string): Promise<void>;
+    toggleEmployeeStatus(id: string, employeeStatus: boolean): Promise<void>;
     deleteContact(id: string): Promise<void>;
 }

@@ -42,14 +42,15 @@ export class ManageContactViewModel extends PageViewModel
         this._operation = "";
         this._id = null;
         this._fullName = "";
-        this._phone = 2;
+        this._phone = 0;
         this._email = "";
     }
 
 
     public save(): void
-    {
-        const savePromise: Promise<any> = this._id ? this._contactService.updateContact(this._id, this._fullName, this._phone, this._email) : this._contactService.createContact(this._fullName, this._phone, this._email);
+    {        
+        const savePromise: Promise<any> = this._id ? this._contactService.updateContact(this._id, this._fullName, this._phone, this._email) :
+            this._contactService.createContact(this._fullName, this._phone, this._email);
 
         savePromise.then(() => this._navigationService.navigate(Routes.listContacts, {})).catch(e => console.log(e));
     }

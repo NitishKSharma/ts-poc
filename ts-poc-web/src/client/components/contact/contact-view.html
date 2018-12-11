@@ -1,14 +1,15 @@
 <div class="contact-view" v-if="!contact.isDeleted">
-    <div class="card">
-        <header class="card-header">
+    <div class="panel">
+        <header class="panel-heading">
             <p class="card-header-title">
                 {{contact.fullName}}
             </p>
-            <div v-show="contact.isEmployee" class="card-header-icon" aria-label="more options">
-                <span class="icon">
-                    <i class="material-icons">employee</i>
-                </span>
-            </div>
+            <p v-show="contact.isEmployee" class="employee">
+                Employee               
+            </p>
+            <label  v-show="!contact.isEmployee" class="not-an-employee">
+                Not an employee
+            </label>
         </header>
         <div class="card-content">
             <div class="content">
@@ -19,7 +20,8 @@
             </div>
         </div>
         <footer class="card-footer">
-            <a v-show="!contact.isEmployee" href="#" class="card-footer-item" v-on:click.prevent="setEmployee">Employee</a>
+            <a v-show="!contact.isEmployee" href="#" class="card-footer-item" v-on:click.prevent="toggleEmployeeStatus">Hire</a>
+            <a v-show="contact.isEmployee" href="#" class="card-footer-item" v-on:click.prevent="toggleEmployeeStatus">Fire</a>
             <a href="#" class="card-footer-item" v-on:click.prevent="editContact">Edit</a>
             <a href="#" class="card-footer-item" v-on:click.prevent="deleteContact">Delete</a>
         </footer>
