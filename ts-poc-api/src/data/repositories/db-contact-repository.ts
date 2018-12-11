@@ -5,8 +5,6 @@ import { inject } from "@nivinjoseph/n-ject";
 import { Contact } from "../../domain/aggregates/contact/contact";
 import { DomainContext } from "@nivinjoseph/n-domain";
 import { ContactNotFoundException } from "../../domain/exceptions/contact-not-found-exception";
-import { any } from "bluebird";
-
 
 @inject("Db", "DomainContext")
 export class DbContactRepository implements ContactRepository

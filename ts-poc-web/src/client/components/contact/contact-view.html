@@ -1,0 +1,27 @@
+<div class="contact-view" v-if="!contact.isDeleted">
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title">
+                {{contact.fullName}}
+            </p>
+            <div v-show="contact.isEmployee" class="card-header-icon" aria-label="more options">
+                <span class="icon">
+                    <i class="material-icons">employee</i>
+                </span>
+            </div>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                {{contact.phone}}
+            </div>
+            <div class="content">
+                {{contact.email}}
+            </div>
+        </div>
+        <footer class="card-footer">
+            <a v-show="!contact.isEmployee" href="#" class="card-footer-item" v-on:click.prevent="setEmployee">Employee</a>
+            <a href="#" class="card-footer-item" v-on:click.prevent="editContact">Edit</a>
+            <a href="#" class="card-footer-item" v-on:click.prevent="deleteContact">Delete</a>
+        </footer>
+    </div>
+</div>

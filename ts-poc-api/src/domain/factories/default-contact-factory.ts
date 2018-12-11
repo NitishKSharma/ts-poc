@@ -6,24 +6,23 @@ import { ContactCreated } from "../aggregates/contact/events/contact-created";
 import { ContactRepository } from "../repositories/contact-repository";
 import { inject } from "@nivinjoseph/n-ject";
 import { DomainContext, DomainHelper } from "@nivinjoseph/n-domain";
-import { isPhoneNumber } from "@nivinjoseph/n-validate/dist/string-validation/is-phone-number";
 
 @inject("DomainContext", "ContactRepository")
 export class DefaultContactFactory implements ContactFactory
 {
     private readonly _domainContext: DomainContext;
-    private readonly _contactRepo: ContactRepository;
+    private readonly _contactRepository: ContactRepository;
 
-    public constructor(domainContext: DomainContext, contactRepo: ContactRepository)
+    public constructor(domainContext: DomainContext, contactRepository: ContactRepository)
     {
         given(domainContext, "domainContext").ensureHasValue().ensureIsObject();
         this._domainContext = domainContext;
 
-        given(contactRepo, "contactRepo").ensureHasValue().ensureIsObject();
-        this._contactRepo = contactRepo;
+        given(contactRepository, "contactRepository").ensureHasValue().ensureIsObject();
+        this._contactRepository = contactRepository;
     }
 
-    public async create(fullName: string, email: string, phone: number): Promise<Contact>
+    public async create(fullName: string, phone: number, email: string): Promise<Contact>
     {
         given(fullName, "fullName").ensureHasValue().ensureIsString();
         given(email, "email").ensureIsString();
@@ -31,7 +30,7 @@ export class DefaultContactFactory implements ContactFactory
 
         const event = new ContactCreated({}, DomainHelper.generateId(), fullName, phone, email);
         const contact = new Contact(this._domainContext, [event]);
-        await this._contactRepo.save(contact);
-        return await this._contactRepo.get(contact.id);
+        await this._contactRepository.save(contact);
+        return await this._contactRepository.get(contact.id);
     }
 }

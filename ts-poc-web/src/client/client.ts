@@ -13,8 +13,8 @@ const client = new ClientApp("#app")
     .useAccentColor("#93C5FC")
     .registerComponents(...components)
     .registerPages(...pages)
-    .useAsInitialRoute(Routes.listTodos)
-    .useAsUnknownRoute(Routes.listTodos)
+    .useAsInitialRoute(Routes.welcomePage)
+    .useAsUnknownRoute(Routes.welcomePage)
     .useHistoryModeRouting();
 
 client.bootstrap();

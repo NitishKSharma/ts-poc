@@ -19,10 +19,10 @@ export class ContactCreated extends DomainEvent<ContactState>
         given(fullName, "fullName").ensureHasValue().ensureIsString();
         this._fullName = fullName;
 
-        given(phone, "phone").ensureHasValue().ensureIsNumber();
+        given(phone, "phone").ensureIsNumber();
         this._phone = phone;
 
-        given(email, "email").ensureHasValue().ensureIsString();
+        given(email, "email").ensureIsString();
         this._email = email;
     }
 

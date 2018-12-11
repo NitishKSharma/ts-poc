@@ -3,7 +3,7 @@ import * as Routes from "../routes";
 import { inject } from "@nivinjoseph/n-ject";
 import { ContactRepository } from "../../../domain/repositories/contact-repository";
 import { given } from "@nivinjoseph/n-defensive";
-import { Validator, strval } from "@nivinjoseph/n-validate";
+import { Validator} from "@nivinjoseph/n-validate";
 import { ValidationException } from "../../exceptions/validation-exception";
 
 @route(Routes.command.updateContact)

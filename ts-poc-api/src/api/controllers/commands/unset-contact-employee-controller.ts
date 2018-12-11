@@ -5,7 +5,6 @@ import { ContactRepository } from "../../../domain/repositories/contact-reposito
 import { given } from "@nivinjoseph/n-defensive";
 import { Validator } from "@nivinjoseph/n-validate";
 import { ValidationException } from "../../exceptions/validation-exception";
-import { Contact } from "../../../domain/aggregates/contact/contact";
 
 
 @route(Routes.command.unSetContactEmployee)
