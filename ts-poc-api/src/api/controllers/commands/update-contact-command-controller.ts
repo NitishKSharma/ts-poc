@@ -35,6 +35,7 @@ export class UpdateContactController extends Controller
 
         console.log("retro events", contact.retroEvents.length);
         console.log("current events", contact.currentEvents.length);
+        await this._contactRepository.save(contact);
     }
 
 

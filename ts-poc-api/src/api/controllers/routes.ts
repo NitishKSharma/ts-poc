@@ -4,7 +4,7 @@ export const query = {
     getAllTodos: queryPrefix + "getAllTodos",
     getTodo: queryPrefix + "getTodo/{id: string}",
     getAllContacts: queryPrefix + "getAllContacts",
-    getContact: queryPrefix + "getContact/{id: string"
+    getContact: queryPrefix + "getContact/{id: string}"
 };
 
 

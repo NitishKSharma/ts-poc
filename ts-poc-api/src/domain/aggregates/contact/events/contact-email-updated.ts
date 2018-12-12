@@ -24,7 +24,7 @@ export class ContactEmailUpdated extends DomainEvent<ContactState>
     }
 
 
-    protected serializeEvent(): object
+    protected serializeEvent(): Serialized
     {
         return {
             email: this._email
