@@ -21,6 +21,7 @@ export class CreateContactController extends Controller
         super();
 
         given(contactFactory, "contactFactory").ensureHasValue().ensureIsObject();
+        
         given(contactRepository, "contactRepository").ensureHasValue().ensureIsObject();
         this._contactFactory = contactFactory;
         this._contactRepository = contactRepository;
@@ -34,12 +35,12 @@ export class CreateContactController extends Controller
 
         const contact = await this._contactFactory.create(model.fullName);
         
-        if (contact.email)
-            contact.updateEmail(contact.email);
+        if (model.email)
+            contact.updateEmail(model.email);
         
-        if (contact.phone)
-            contact.updatePhone(contact.phone);
-                
+        if (model.phone)
+            contact.updatePhone(model.phone);
+           
         await this._contactRepository.save(contact);
         
         return {
@@ -59,9 +60,10 @@ export class CreateContactController extends Controller
             .ensureIsString()
             .useValidationRule(strval.hasMaxLength(128));
         
-        validator.for<number>("phone")
+        validator.for<string>("phone")
             .isOptional()
-            .ensureIsNumber();
+            .ensureIsString()
+            .useValidationRule(strval.isPhoneNumber());
         
         validator.for<string>("email")
             .isOptional()

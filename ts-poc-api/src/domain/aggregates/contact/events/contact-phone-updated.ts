@@ -40,6 +40,7 @@ export class ContactPhoneUpdated extends DomainEvent<ContactState>
     }
 }
 
+
 interface Serialized
 {
     phone: number;

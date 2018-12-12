@@ -2,6 +2,7 @@ import { ContactState } from "../contact-state";
 import { given } from "@nivinjoseph/n-defensive";
 import { DomainEvent, DomainEventData } from "@nivinjoseph/n-domain";
 
+
 export class ContactUnSetEmployee extends DomainEvent<ContactState>
 {
     public static deserializeEvent(data: DomainEventData): ContactUnSetEmployee

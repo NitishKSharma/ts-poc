@@ -1,5 +1,6 @@
 import { AggregateState } from "@nivinjoseph/n-domain";
 
+
 export interface ContactState extends AggregateState
 {
     fullName: string;

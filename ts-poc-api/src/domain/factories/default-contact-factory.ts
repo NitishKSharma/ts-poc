@@ -13,6 +13,7 @@ export class DefaultContactFactory implements ContactFactory
     private readonly _domainContext: DomainContext;
     private readonly _contactRepository: ContactRepository;
 
+
     public constructor(domainContext: DomainContext, contactRepository: ContactRepository)
     {
         given(domainContext, "domainContext").ensureHasValue().ensureIsObject();
@@ -22,12 +23,10 @@ export class DefaultContactFactory implements ContactFactory
         this._contactRepository = contactRepository;
     }
 
+    
     public async create(fullName: string): Promise<Contact>
-    {
-        // TODO: correct create by only accepting what's necessary which is just the name.
+    {        
         given(fullName, "fullName").ensureHasValue().ensureIsString();
-        // given(email, "email").ensureIsString();
-        // given(phone, "phone").ensureIsNumber();
 
         const event = new ContactCreated({}, DomainHelper.generateId(), fullName);
         const contact = new Contact(this._domainContext, [event]);

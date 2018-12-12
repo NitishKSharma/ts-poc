@@ -51,7 +51,7 @@ export class DbContactRepository implements ContactRepository
 
         const exists = await this.checkIfContactExists(contact.id);
         if (exists && contact.hasChanges)
-        {
+        {            
             const sql = `update contacts 
                         set version = ?, updated_at = ?, data = ?
                         where id = ? and version = ?;`;

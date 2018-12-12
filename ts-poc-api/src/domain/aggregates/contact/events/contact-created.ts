@@ -7,6 +7,7 @@ export class ContactCreated extends DomainEvent<ContactState>
     private readonly _contactId: string;
     private readonly _fullName: string;
 
+
     public constructor(data: DomainEventData, contactId: string, fullName: string)
     {
         super(data);
@@ -16,13 +17,8 @@ export class ContactCreated extends DomainEvent<ContactState>
 
         given(fullName, "fullName").ensureHasValue().ensureIsString();
         this._fullName = fullName;
-
-        // given(phone, "phone").ensureIsNumber();
-        // this._phone = phone;
-
-        // given(email, "email").ensureIsString();
-        // this._email = email;
     }
+
 
     public static deserializeEvent(data: DomainEventData & Serialized): ContactCreated
     {
@@ -31,6 +27,7 @@ export class ContactCreated extends DomainEvent<ContactState>
         return new ContactCreated(data, data.contactId, data.fullName);
     }
 
+    
     protected serializeEvent(): Serialized
     {
         return {
@@ -47,6 +44,7 @@ export class ContactCreated extends DomainEvent<ContactState>
         state.fullName = this._fullName;
     }
 }
+
 
 interface Serialized
 {

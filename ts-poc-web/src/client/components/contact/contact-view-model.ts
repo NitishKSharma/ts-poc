@@ -6,6 +6,7 @@ import { given } from "@nivinjoseph/n-defensive";
 import * as Routes from "../../pages/routes";
 import "./contact-view.scss";
 
+
 @template(require("./contact-view.html"))
 @element("contact")
 @bind("value")
@@ -15,14 +16,17 @@ export class ContactViewModel extends ComponentViewModel
     private readonly _contactService: ContactService;
     private readonly _navigationService: NavigationService;
 
+
     public get contact(): Contact { return this.getBound<Contact>("value"); }
+
 
     public constructor(contactService: ContactService, navigationService: NavigationService)
     {
         super();
+
+
         given(contactService, "contactService").ensureHasValue().ensureIsObject();
         given(navigationService, "navigationService").ensureHasValue().ensureIsObject();
-
         this._contactService = contactService;
         this._navigationService = navigationService;
     }

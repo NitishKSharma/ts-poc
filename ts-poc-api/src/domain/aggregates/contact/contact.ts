@@ -42,26 +42,29 @@ export class Contact extends AggregateRoot<ContactState>
         given(email, "email").ensureIsString();
         
         email = email ? email.trim() : null;
-
+        // TODO: check if the value is changing from current value
         this.applyEvent(new ContactEmailUpdated({}, email));
     }
 
-    public updatePhone(phone: number): void
+    public updatePhone(phone: number | null): void
     {
         given(phone, "phone").ensureIsNumber();
 
+        phone = phone ? phone : null;
+        // TODO: check if the value is changing from current value
+        // TODO: change phone type
         this.applyEvent(new ContactPhoneUpdated({}, phone));
     }
 
     public setEmployee(): void
     {
         given(this, "this").ensure(t => !t.state.isEmployee, "already an employee");
-        
         this.applyEvent(new ContactSetEmployee({}));
     }
 
     public unSetEmployee(): void
     {
+        given(this, "this").ensure(t => t.state.isEmployee, "already fired");
         this.applyEvent(new ContactUnSetEmployee({}));
     }
 
