@@ -16,6 +16,7 @@ export class Contact extends AggregateRoot<ContactState>
     public get email(): string { return this.state.email; }
     public get isEmployee(): boolean { return this.state.isEmployee; }
 
+
     public constructor(domainContext: DomainContext, events: ReadonlyArray<DomainEvent<ContactState>>)
     {
         super(domainContext, events, { isEmployee: false });
@@ -35,11 +36,12 @@ export class Contact extends AggregateRoot<ContactState>
         return AggregateRoot.deserialize(domainContext, Contact, eventTypes, data as AggregateRootData) as Contact;
     }
 
-    public updateEmail(email: string): void
-    {
-        given(email, "email").ensureHasValue().ensureIsString();
 
-        email = email.trim();
+    public updateEmail(email: string | null): void
+    {
+        given(email, "email").ensureIsString();
+        
+        email = email ? email.trim() : null;
 
         this.applyEvent(new ContactEmailUpdated({}, email));
     }
@@ -53,6 +55,8 @@ export class Contact extends AggregateRoot<ContactState>
 
     public setEmployee(): void
     {
+        given(this, "this").ensure(t => !t.state.isEmployee, "already an employee");
+        
         this.applyEvent(new ContactSetEmployee({}));
     }
 

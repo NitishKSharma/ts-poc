@@ -41,9 +41,9 @@ export class DbContactRepository implements ContactRepository
         if (result.rows.length === 0)
             throw new ContactNotFoundException(id);
 
-
         return Contact.deserialize(this._domainContext, result.rows[0].data);
     }
+
 
     public async save(contact: Contact): Promise<void>
     {

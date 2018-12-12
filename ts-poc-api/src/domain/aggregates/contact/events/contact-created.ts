@@ -6,10 +6,8 @@ export class ContactCreated extends DomainEvent<ContactState>
 {
     private readonly _contactId: string;
     private readonly _fullName: string;
-    private readonly _phone: number;
-    private readonly _email: string;
 
-    public constructor(data: DomainEventData, contactId: string, fullName: string, phone: number, email: string)
+    public constructor(data: DomainEventData, contactId: string, fullName: string)
     {
         super(data);
 
@@ -19,18 +17,18 @@ export class ContactCreated extends DomainEvent<ContactState>
         given(fullName, "fullName").ensureHasValue().ensureIsString();
         this._fullName = fullName;
 
-        given(phone, "phone").ensureIsNumber();
-        this._phone = phone;
+        // given(phone, "phone").ensureIsNumber();
+        // this._phone = phone;
 
-        given(email, "email").ensureIsString();
-        this._email = email;
+        // given(email, "email").ensureIsString();
+        // this._email = email;
     }
 
     public static deserializeEvent(data: DomainEventData & Serialized): ContactCreated
     {
         given(data, "data").ensureHasValue().ensureIsObject();
 
-        return new ContactCreated(data, data.contactId, data.fullName, data.phone, data.email);
+        return new ContactCreated(data, data.contactId, data.fullName);
     }
 
     protected serializeEvent(): Serialized
@@ -38,8 +36,6 @@ export class ContactCreated extends DomainEvent<ContactState>
         return {
             contactId: this._contactId,
             fullName: this._fullName,
-            phone: this._phone,
-            email: this._email
         };
     }
 
@@ -49,8 +45,6 @@ export class ContactCreated extends DomainEvent<ContactState>
 
         state.id = this._contactId;
         state.fullName = this._fullName;
-        state.phone = this._phone;
-        state.email = this._email;
     }
 }
 
@@ -58,6 +52,4 @@ interface Serialized
 {
     contactId: string;
     fullName: string;
-    phone: number;
-    email: string;
 }

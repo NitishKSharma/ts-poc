@@ -5,20 +5,25 @@ import { given } from "@nivinjoseph/n-defensive";
 import { ContactFactory } from "../../../domain/factories/contact-factory";
 import { Validator, strval } from "@nivinjoseph/n-validate";
 import { ValidationException } from "../../exceptions/validation-exception";
+import { ContactRepository } from "../../../domain/repositories/contact-repository";
 
 @route(Routes.command.createContact)
 @command
-@inject("ContactFactory")
+@inject("ContactFactory", "ContactRepository")
 export class CreateContactController extends Controller
 {
     private readonly _contactFactory: ContactFactory;
+    private readonly _contactRepository: ContactRepository;
 
-    public constructor(contactFactory: ContactFactory)
+
+    public constructor(contactFactory: ContactFactory, contactRepository: ContactRepository)
     {
         super();
 
         given(contactFactory, "contactFactory").ensureHasValue().ensureIsObject();
+        given(contactRepository, "contactRepository").ensureHasValue().ensureIsObject();
         this._contactFactory = contactFactory;
+        this._contactRepository = contactRepository;
     }
 
     public async execute(model: Model): Promise<object>
@@ -27,8 +32,16 @@ export class CreateContactController extends Controller
 
         this.validateModel(model);
 
-        const contact = await this._contactFactory.create(model.fullName, model.phone, model.email);
-
+        const contact = await this._contactFactory.create(model.fullName);
+        
+        if (contact.email)
+            contact.updateEmail(contact.email);
+        
+        if (contact.phone)
+            contact.updatePhone(contact.phone);
+                
+        await this._contactRepository.save(contact);
+        
         return {
             id: contact.id,
             fullName: contact.fullName,

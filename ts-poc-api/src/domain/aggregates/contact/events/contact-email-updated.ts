@@ -5,7 +5,7 @@ import { DomainEvent, DomainEventData } from "@nivinjoseph/n-domain";
 export class ContactEmailUpdated extends DomainEvent<ContactState>
 {
     private readonly _email: string;
-
+    
 
     public constructor(data: DomainEventData, email: string)
     {
@@ -31,7 +31,6 @@ export class ContactEmailUpdated extends DomainEvent<ContactState>
         };
     }
 
-
     protected applyEvent(state: ContactState): void
     {
         given(state, "state").ensureHasValue().ensureIsObject();
@@ -39,6 +38,7 @@ export class ContactEmailUpdated extends DomainEvent<ContactState>
         state.email = this._email;
     }    
 }
+
 
 interface Serialized
 {

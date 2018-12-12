@@ -6,6 +6,7 @@ import { given } from "@nivinjoseph/n-defensive";
 import "@nivinjoseph/n-ext";
 import { inject } from "@nivinjoseph/n-ject";
 import { DialogService } from "@nivinjoseph/n-app";
+import { isNumber } from "util";
 
 @inject("DialogService")
 export class RemoteContactService implements ContactService
@@ -78,15 +79,15 @@ export class RemoteContactService implements ContactService
     }
 
     public async createContact(fullName: string, phone: number, email: string): Promise<Contact>
-    {
-
+    {        
+        let _phone = Number(phone);        
         given(fullName, "fullName").ensureHasValue().ensureIsString();
-        given(phone, "phone").ensureIsNumber();
+        given(_phone, "_phone").ensureIsNumber();
         given(email, "email").ensureIsString();
-
+        
         const command = {
             fullName: fullName.trim(),
-            phone: phone,
+            phone: _phone,
             email: email.trim()
         };
 

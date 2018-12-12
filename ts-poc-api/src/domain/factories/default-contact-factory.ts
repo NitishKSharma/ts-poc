@@ -22,13 +22,14 @@ export class DefaultContactFactory implements ContactFactory
         this._contactRepository = contactRepository;
     }
 
-    public async create(fullName: string, phone: number, email: string): Promise<Contact>
+    public async create(fullName: string): Promise<Contact>
     {
+        // TODO: correct create by only accepting what's necessary which is just the name.
         given(fullName, "fullName").ensureHasValue().ensureIsString();
-        given(email, "email").ensureIsString();
-        given(phone, "phone").ensureIsNumber();
+        // given(email, "email").ensureIsString();
+        // given(phone, "phone").ensureIsNumber();
 
-        const event = new ContactCreated({}, DomainHelper.generateId(), fullName, phone, email);
+        const event = new ContactCreated({}, DomainHelper.generateId(), fullName);
         const contact = new Contact(this._domainContext, [event]);
         await this._contactRepository.save(contact);
         return await this._contactRepository.get(contact.id);
