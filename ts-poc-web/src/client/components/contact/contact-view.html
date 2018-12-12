@@ -5,9 +5,9 @@
                 {{contact.fullName}}
             </p>
             <p v-show="contact.isEmployee" class="employee">
-                Employee               
+                Employee
             </p>
-            <label  v-show="!contact.isEmployee" class="not-an-employee">
+            <label v-show="!contact.isEmployee" class="not-an-employee">
                 Not an employee
             </label>
         </header>
@@ -20,8 +20,8 @@
             </div>
         </div>
         <footer class="card-footer">
-            <a v-show="!contact.isEmployee" href="#" class="card-footer-item" v-on:click.prevent="toggleEmployeeStatus">Hire</a>
-            <a v-show="contact.isEmployee" href="#" class="card-footer-item" v-on:click.prevent="toggleEmployeeStatus">Fire</a>
+            <a v-show="!contact.isEmployee" href="#" class="card-footer-item">Hire</a>
+            <a v-show="contact.isEmployee" href="#" class="card-footer-item">Fire</a>
             <a href="#" class="card-footer-item" v-on:click.prevent="editContact">Edit</a>
             <a href="#" class="card-footer-item" v-on:click.prevent="deleteContact">Delete</a>
         </footer>
