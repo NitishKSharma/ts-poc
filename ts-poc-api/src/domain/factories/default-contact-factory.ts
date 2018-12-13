@@ -1,8 +1,8 @@
 import { ContactFactory } from "./contact-factory";
 import { given } from "@nivinjoseph/n-defensive";
 import "@nivinjoseph/n-ext";
-import { Contact } from "../aggregates/contact/contact";
-import { ContactCreated } from "../aggregates/contact/events/contact-created";
+import { Contact } from "../aggregates/contact/employee";
+import { EmployeeCreated } from "../aggregates/contact/events/employee-created";
 import { ContactRepository } from "../repositories/contact-repository";
 import { inject } from "@nivinjoseph/n-ject";
 import { DomainContext, DomainHelper } from "@nivinjoseph/n-domain";
@@ -28,7 +28,7 @@ export class DefaultContactFactory implements ContactFactory
     {        
         given(fullName, "fullName").ensureHasValue().ensureIsString();
 
-        const event = new ContactCreated({}, DomainHelper.generateId(), fullName);
+        const event = new EmployeeCreated({}, DomainHelper.generateId(), fullName);
         const contact = new Contact(this._domainContext, [event]);
         await this._contactRepository.save(contact);
         return await this._contactRepository.get(contact.id);

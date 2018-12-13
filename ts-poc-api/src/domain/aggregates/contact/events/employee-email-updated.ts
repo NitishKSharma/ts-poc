@@ -1,8 +1,9 @@
-import { ContactState } from "../contact-state";
+import { EmployeeState } from "../employee-state";
 import { given } from "@nivinjoseph/n-defensive";
 import { DomainEvent, DomainEventData } from "@nivinjoseph/n-domain";
 
-export class ContactEmailUpdated extends DomainEvent<ContactState>
+
+export class EmployeeEmailUpdated extends DomainEvent<EmployeeState>
 {
     private readonly _email: string;
     
@@ -15,12 +16,11 @@ export class ContactEmailUpdated extends DomainEvent<ContactState>
         this._email = email;
     }
 
-
-    public static deserializeEvent(data: DomainEventData & Serialized): ContactEmailUpdated
+    public static deserializeEvent(data: DomainEventData & Serialized): EmployeeEmailUpdated
     {
         given(data, "data").ensureHasValue().ensureIsObject();
 
-        return new ContactEmailUpdated(data, data.email);
+        return new EmployeeEmailUpdated(data, data.email);
     }
 
 
@@ -31,7 +31,7 @@ export class ContactEmailUpdated extends DomainEvent<ContactState>
         };
     }
 
-    protected applyEvent(state: ContactState): void
+    protected applyEvent(state: EmployeeState): void
     {
         given(state, "state").ensureHasValue().ensureIsObject();
 

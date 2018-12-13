@@ -1,6 +1,6 @@
 import { ContactRepository } from "../../domain/repositories/contact-repository";
 import { given } from "@nivinjoseph/n-defensive";
-import { Contact } from "../../domain/aggregates/contact/contact";
+import { Contact } from "../../domain/aggregates/contact/employee";
 import { ContactNotFoundException } from "../../domain/exceptions/contact-not-found-exception";
 import { inject } from "@nivinjoseph/n-ject";
 import { DomainContext } from "@nivinjoseph/n-domain";

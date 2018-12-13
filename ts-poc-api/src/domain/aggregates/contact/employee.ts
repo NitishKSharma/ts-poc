@@ -1,0 +1,95 @@
+import { given } from "@nivinjoseph/n-defensive";
+import "@nivinjoseph/n-ext";
+import { EmployeeState } from "./employee-state";
+import { AggregateRoot, DomainContext, AggregateRootData, DomainEvent } from "@nivinjoseph/n-domain";
+import { EmployeeCreated } from "./events/employee-created";
+import { EmployeeEmailUpdated } from "./events/employee-email-updated";
+import { EmployeePhoneUpdated } from "./events/employee-phone-updated";
+import { EmployeeHired } from "./events/employee-hired";
+import { EmployeeFired } from "./events/employee-fired";
+import { EmployeeEmploymentStatus } from "./value-objects/employee-employment-status";
+import { EmployeeSsnUpdated } from "./events/employee-ssn-updated";
+
+export class Employee extends AggregateRoot<EmployeeState>
+{
+    public get createdAt(): number { return this.events.find(t => t.name === (<Object>EmployeeCreated).getTypeName()).occurredAt; }
+    public get firstName(): string { return this.state.firstName; }
+    public get lastName(): string { return this.state.lastName; }
+    public get phone(): string { return this.state.phone; }
+    public get email(): string { return this.state.email; }
+    public get ssn(): number { return this.state.ssn; }
+    public get employeeId(): string { return this.state.employeeId; }
+    public get employeeStatus(): EmployeeEmploymentStatus { return this.state.employmentStatus; }
+    public get firingReason(): string { return this.state.firingReason; }
+
+
+    public constructor(domainContext: DomainContext, events: ReadonlyArray<DomainEvent<EmployeeState>>)
+    {
+        super(domainContext, events, { isEmployee: false });
+    }
+
+
+    public static deserialize(domainContext: DomainContext, data: object): Employee
+    {
+        const eventTypes = [
+            EmployeeCreated,
+            EmployeeEmailUpdated,
+            EmployeePhoneUpdated,
+        ];
+
+        return AggregateRoot.deserialize(domainContext, Employee, eventTypes, data as AggregateRootData) as Employee;
+    }
+
+
+    public updateEmail(email: string | null): void
+    {
+        if (email)
+            given(email, "email").ensureIsString();
+
+        email = email ? email.trim() : null;
+
+        if (this.state.email === email)
+            return;
+
+        this.applyEvent(new EmployeeEmailUpdated({}, email));
+    }
+
+    public updatePhone(phone: string | null): void
+    {
+        if (phone)
+            given(phone, "phone").ensureIsString();
+
+        phone = phone ? phone.trim() : null;
+
+        if (this.state.phone === phone)
+            return;
+
+        this.applyEvent(new EmployeePhoneUpdated({}, phone));
+    }
+
+    public updateSsn(ssn: number | null): void
+    {
+        if (ssn != null)        
+            given(ssn, "ssn").ensureIsString();
+        
+        if (this.state.ssn === ssn)
+            return;
+        
+        this.applyEvent(new EmployeeSsnUpdated({}, ssn));
+    }
+
+    public 
+
+    public hire(): void
+    {
+        given(this, "this").ensure(t => t.state.employmentStatus === EmployeeEmploymentStatus.employee, "Can not hire someone who is already an employee");
+        this.applyEvent(new EmployeeHired({}));
+    }
+
+    public fire(): void
+    {
+        given(this, "this").ensure(t => t.state.employmentStatus === EmployeeEmploymentStatus.notAnEmployee, "Can not fire someone who doesn't work here. Are you crazy or what?");
+        this.applyEvent(new EmployeeFired({}));
+    }
+
+}

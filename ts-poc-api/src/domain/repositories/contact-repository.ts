@@ -1,4 +1,4 @@
-import { Contact } from "../aggregates/contact/contact";
+import { Contact } from "../aggregates/contact/employee";
 
 
 export interface ContactRepository

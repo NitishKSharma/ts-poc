@@ -1,26 +1,25 @@
-import { ContactState } from "../contact-state";
+import { EmployeeState } from "../employee-state";
 import { given } from "@nivinjoseph/n-defensive";
 import { DomainEvent, DomainEventData } from "@nivinjoseph/n-domain";
 
-export class ContactPhoneUpdated extends DomainEvent<ContactState>
+export class EmployeePhoneUpdated extends DomainEvent<EmployeeState>
 {
-    private readonly _phone: number;
+    private readonly _phone: string;
 
 
-    public constructor(data: DomainEventData, phone: number)
+    public constructor(data: DomainEventData, phone: string)
     {
         super(data);
 
-        given(phone, "phone").ensureIsNumber();
+        given(phone, "phone").ensureIsString();
         this._phone = phone;
     }
 
-
-    public static deserializeEvent(data: DomainEventData & Serialized): ContactPhoneUpdated
+    public static deserializeEvent(data: DomainEventData & Serialized): EmployeePhoneUpdated
     {
         given(data, "data").ensureHasValue().ensureIsObject();
 
-        return new ContactPhoneUpdated(data, data.phone);
+        return new EmployeePhoneUpdated(data, data.phone);
     }
 
 
@@ -31,8 +30,7 @@ export class ContactPhoneUpdated extends DomainEvent<ContactState>
         };
     }
 
-
-    protected applyEvent(state: ContactState): void
+    protected applyEvent(state: EmployeeState): void
     {
         given(state, "state").ensureHasValue().ensureIsObject();
 
@@ -43,5 +41,5 @@ export class ContactPhoneUpdated extends DomainEvent<ContactState>
 
 interface Serialized
 {
-    phone: number;
+    phone: string;
 }

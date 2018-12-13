@@ -2,7 +2,7 @@ import { ContactRepository } from "../../domain/repositories/contact-repository"
 import { Db } from "@nivinjoseph/n-data";
 import { given } from "@nivinjoseph/n-defensive";
 import { inject } from "@nivinjoseph/n-ject";
-import { Contact } from "../../domain/aggregates/contact/contact";
+import { Contact } from "../../domain/aggregates/contact/employee";
 import { DomainContext } from "@nivinjoseph/n-domain";
 import { ContactNotFoundException } from "../../domain/exceptions/contact-not-found-exception";
 
