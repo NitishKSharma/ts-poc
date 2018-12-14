@@ -1,4 +1,4 @@
-My fork of [Nivin Joseph's](https://github.com/nivinjoseph) ts-poc project. Project showcases full-stack app with typescript using event-sourcing.
+My fork of [Nivin Joseph's](https://github.com/nivinjoseph) ts-poc project. Project showcases full-stack app development with typescript using event-sourcing.
 
 # Docker Setup
 1. docker network create ts-poc
