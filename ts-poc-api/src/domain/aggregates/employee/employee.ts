@@ -9,6 +9,9 @@ import { EmployeeHired } from "./events/employee-hired";
 import { EmployeeFired } from "./events/employee-fired";
 import { EmployeeEmploymentStatus } from "./value-objects/employee-employment-status";
 import { EmployeeSsnUpdated } from "./events/employee-ssn-updated";
+import { EmployeeEmployeeIdUpdated } from "./events/employee-employee-id-updated";
+import { EmployeeEmploymentStatusUpdated } from "./events/employee-employment-status-updated";
+import { EmployeeFiringReasonUpdated } from "./events/employee-firing-reason-updated";
 
 export class Employee extends AggregateRoot<EmployeeState>
 {
@@ -19,7 +22,7 @@ export class Employee extends AggregateRoot<EmployeeState>
     public get email(): string { return this.state.email; }
     public get ssn(): number { return this.state.ssn; }
     public get employeeId(): string { return this.state.employeeId; }
-    public get employeeStatus(): EmployeeEmploymentStatus { return this.state.employmentStatus; }
+    public get employmentStatus(): EmployeeEmploymentStatus { return this.state.employmentStatus; }
     public get firingReason(): string { return this.state.firingReason; }
 
 
@@ -70,7 +73,7 @@ export class Employee extends AggregateRoot<EmployeeState>
     public updateSsn(ssn: number | null): void
     {
         if (ssn != null)        
-            given(ssn, "ssn").ensureIsString();
+            given(ssn, "ssn").ensureIsNumber();
         
         if (this.state.ssn === ssn)
             return;
@@ -78,7 +81,42 @@ export class Employee extends AggregateRoot<EmployeeState>
         this.applyEvent(new EmployeeSsnUpdated({}, ssn));
     }
 
-    public 
+    public updateEmployeeId(employeeId: string | null): void
+    {
+        if (employeeId)
+            given(employeeId, "employeeId").ensureIsString();
+        
+        employeeId = employeeId ? employeeId.trim() : null;
+
+        if (this.state.employeeId === employeeId)
+            return;
+        
+        this.applyEvent(new EmployeeEmployeeIdUpdated({}, employeeId));
+    }
+
+    public updateEmploymentStatus(employmentStatus: EmployeeEmploymentStatus | null): void
+    {
+        // if (employmentStatus)
+        //     given(employmentStatus, "employmentStatus")
+
+        if (this.state.employmentStatus === employmentStatus)
+            return;
+        
+        this.applyEvent(new EmployeeEmploymentStatusUpdated({}, employmentStatus));
+    }
+
+    public updateEmployeeFiringReason(firingReason: string | null): void
+    {
+        if (firingReason)
+            given(firingReason, "firingReason").ensureIsString();
+        
+        firingReason = firingReason ? firingReason.trim() : null;
+
+        if (this.state.firingReason === firingReason)
+            return;
+        
+        this.applyEvent(new EmployeeFiringReasonUpdated({}, firingReason));
+    }
 
     public hire(): void
     {

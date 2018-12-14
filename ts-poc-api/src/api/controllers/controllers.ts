@@ -4,13 +4,12 @@ import { CreateTodoController } from "./commands/create-todo-controller";
 import { UpdateTodoController } from "./commands/update-todo-command";
 import { MarkTodoAsCompletedController } from "./commands/mark-todo-as-completed";
 import { DeleteTodoController } from "./commands/delete-todo-controller";
-import { GetAllContactsController } from "./queries/get-all-contacts-controller";
-import { GetContactController } from "./queries/get-contact-controller";
-import { CreateContactController } from "./commands/create-contact-controller";
-import { DeleteContactController } from "./commands/delete-contact-controller";
-import { SetContactEmployeeController } from "./commands/set-contact-employee-controller";
-import { UnSetContactEmployeeController } from "./commands/unset-contact-employee-controller";
-import { UpdateContactController } from "./commands/update-contact-command-controller";
+import { GetAllEmployeesController } from "./queries/get-all-contacts-controller";
+import { GetEmployeeController } from "./queries/get-employee-controller";
+import { CreateEmployeeController } from "./commands/create-employee-controller";
+import { HireController } from "./commands/hire-controller";
+import { FireController } from "./commands/fire-controller";
+import { UpdateEmployeeController } from "./commands/update-employee-command-controller";
 
 
 export const controllers: Array<Function> = [
@@ -20,11 +19,10 @@ export const controllers: Array<Function> = [
     UpdateTodoController,
     MarkTodoAsCompletedController,
     DeleteTodoController,
-    GetAllContactsController,
-    GetContactController,
-    CreateContactController,
-    DeleteContactController,
-    SetContactEmployeeController,
-    UnSetContactEmployeeController,
-    UpdateContactController
+    GetAllEmployeesController,
+    GetEmployeeController,
+    CreateEmployeeController,
+    HireController,
+    FireController,
+    UpdateEmployeeController
 ];

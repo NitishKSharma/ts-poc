@@ -1,35 +1,39 @@
 import { Controller, route, query } from "@nivinjoseph/n-web";
 import * as Routes from "../routes";
 import { inject } from "@nivinjoseph/n-ject";
-import { ContactRepository } from "../../../domain/repositories/contact-repository";
+import { EmployeeRepository } from "../../../domain/repositories/employee-repository";
 import { given } from "@nivinjoseph/n-defensive";
 
-@route(Routes.query.getAllContacts)
+@route(Routes.query.getAllEmployees)
 @query
-@inject("ContactRepository")
-export class GetAllContactsController extends Controller
+@inject("EmployeeRepository")
+export class GetAllEmployeesController extends Controller
 {
-    private readonly _contactRepository: ContactRepository;
+    private readonly _employeeRepository: EmployeeRepository;
 
 
-    public constructor(contactRepository: ContactRepository)
+    public constructor(employeeRepository: EmployeeRepository)
     {
         super();
-        given(contactRepository, "contactRepository").ensureHasValue().ensureIsObject();
-        this._contactRepository = contactRepository;
+        given(employeeRepository, "employeeRepository").ensureHasValue().ensureIsObject();
+        this._employeeRepository = employeeRepository;
     }
 
 
     public async execute(): Promise<ReadonlyArray<object>>
     {
-        const contacts = await this._contactRepository.getAll();
-        return contacts.map(t => (
+        const employees = await this._employeeRepository.getAll();
+        return employees.map(t => (
             {
                 id: t.id,
-                fullName: t.fullName,
+                firstName: t.firstName,
+                lastName: t.lastName,                
                 phone: t.phone,
                 email: t.email,
-                isEmployee: t.isEmployee
+                ssn: t.ssn,
+                employeeId: t.employeeId,
+                employmentStatus: t.employmentStatus,
+                firingReason: t.firingReason,                
             }
         ));
     }

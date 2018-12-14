@@ -1,25 +1,25 @@
 import { Controller, command, route } from "@nivinjoseph/n-web";
 import * as Routes from "../routes";
 import { inject } from "@nivinjoseph/n-ject";
-import { ContactRepository } from "../../../domain/repositories/contact-repository";
+import { EmployeeRepository } from "../../../domain/repositories/employee-repository";
 import { given } from "@nivinjoseph/n-defensive";
 import { Validator} from "@nivinjoseph/n-validate";
 import { ValidationException } from "../../exceptions/validation-exception";
 
-@route(Routes.command.updateContact)
+@route(Routes.command.updateEmployee)
 @command
-@inject("ContactRepository")
-export class UpdateContactController extends Controller
+@inject("EmployeeRepository")
+export class UpdateEmployeeController extends Controller
 {
-    private readonly _contactRepository: ContactRepository;
+    private readonly _employeeRepository: EmployeeRepository;
 
 
-    public constructor(contactRepository: ContactRepository)
+    public constructor(employeeRepository: EmployeeRepository)
     {
         super();
         
-        given(contactRepository, "contactRepository").ensureHasValue().ensureIsObject();
-        this._contactRepository = contactRepository;
+        given(employeeRepository, "employeeRepository").ensureHasValue().ensureIsObject();
+        this._employeeRepository = employeeRepository;
     }
 
 
@@ -29,13 +29,16 @@ export class UpdateContactController extends Controller
 
         this.validateModel(model);
 
-        const contact = await this._contactRepository.get(model.id);
+        const contact = await this._employeeRepository.get(model.id);
         contact.updateEmail(model.email);
         contact.updatePhone(model.phone);
+        contact.updateSsn(model.ssn);
+        contact.updateEmployeeId(model.employeeId);
+        contact.updateEmployeeFiringReason(model.firingReason);
 
         console.log("retro events", contact.retroEvents.length);
         console.log("current events", contact.currentEvents.length);
-        await this._contactRepository.save(contact);
+        await this._employeeRepository.save(contact);
     }
 
 
@@ -55,6 +58,18 @@ export class UpdateContactController extends Controller
             .isOptional()
             .ensureIsString();
         
+        validator.for<number>("ssn")
+            .isOptional()
+            .ensureIsNumber();
+        
+        validator.for<string>("employeeId")
+            .isOptional()
+            .ensureIsString();
+        
+        validator.for<string>("firingReason")
+            .isOptional()
+            .ensureIsString();
+        
         validator.validate(model);
 
         if (validator.hasErrors)
@@ -65,7 +80,11 @@ export class UpdateContactController extends Controller
 interface Model
 {
     id: string;
-    fullName: string;
-    phone?: number;
+    firstName: string;
+    lastName: string;
+    phone?: string;
     email?: string;
+    ssn?: number;
+    employeeId?: string;
+    firingReason?: string;
 }

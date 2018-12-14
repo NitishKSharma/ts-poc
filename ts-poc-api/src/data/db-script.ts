@@ -13,7 +13,7 @@ const sql = `
         updated_at bigint not null,
         data jsonb not null
     );
-    create table contacts
+    create table employees
     (
         id varchar (48) primary key,
         version int not null,

@@ -1,26 +1,26 @@
 import { Controller, command, route } from "@nivinjoseph/n-web";
 import * as Routes from "../routes";
 import { inject } from "@nivinjoseph/n-ject";
-import { ContactRepository } from "../../../domain/repositories/contact-repository";
+import { EmployeeRepository } from "../../../domain/repositories/employee-repository";
 import { given } from "@nivinjoseph/n-defensive";
 import { Validator } from "@nivinjoseph/n-validate";
 import { ValidationException } from "../../exceptions/validation-exception";
 
 
-@route(Routes.command.unSetContactEmployee)
+@route(Routes.command.fire)
 @command
-@inject("ContactRepository")
-export class UnSetContactEmployeeController extends Controller
+@inject("EmployeeRepository")
+export class FireController extends Controller
 {
-    private readonly _contactRepository: ContactRepository;
+    private readonly _employeeRepository: EmployeeRepository;
 
 
-    public constructor(contactRepository: ContactRepository)
+    public constructor(employeeRepository: EmployeeRepository)
     {
         super();
 
-        given(contactRepository, "contactRepository").ensureHasValue().ensureIsObject();
-        this._contactRepository = contactRepository;
+        given(employeeRepository, "employeeRepository").ensureHasValue().ensureIsObject();
+        this._employeeRepository = employeeRepository;
     }
 
 
@@ -29,10 +29,11 @@ export class UnSetContactEmployeeController extends Controller
         given(model, "model").ensureHasValue().ensureIsObject();
 
         this.validateModel(model);
-
-        const contact = await this._contactRepository.get(model.id);
-        contact.unSetEmployee();
-        await this._contactRepository.save(contact);
+        
+        const employee = await this._employeeRepository.get(model.id);
+        employee.fire();
+        employee.updateEmployeeFiringReason(model.firingReason);
+        await this._employeeRepository.save(employee);
     }
 
     private validateModel(model: Model): void
@@ -42,18 +43,21 @@ export class UnSetContactEmployeeController extends Controller
         validator.for<string>("id")
             .isRequired()
             .ensureIsString();
-
-
+        
+        validator.for<string>("firingReason")
+            .isRequired().
+            ensureIsString();
+        
         validator.validate(model);
 
         if (validator.hasErrors)
             throw new ValidationException(validator.errors);
 
     }
-
 }
 
 interface Model
 {
     id: string;
+    firingReason: string;
 }
