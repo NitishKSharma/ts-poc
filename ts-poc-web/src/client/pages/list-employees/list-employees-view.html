@@ -1,0 +1,32 @@
+<!-- <div class="list-contacts-view">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <router-link to="/manageContacts" class="button is-primary create-contact-button">Create Contact</router-link>
+        </div>
+    </nav>
+
+    <div class="contact-container container notification">
+        <contact v-for="contact in contacts" v-bind:key="contact.id" v-bind:value="contact"></contact>
+    </div>
+</div> -->
+
+
+<nav class="list-employees-view panel">
+    <p class="panel-heading">
+        Employee Management System
+    </p>
+    <div class="panel">
+        <p class="control">
+            <input class="input is-small" type="text" placeholder="search">
+        </p>
+    </div>
+    <p class="panel-tabs">
+        <a class="is-active">all</a>
+        <a>employees</a>
+        <a>not employees</a>
+    </p>
+
+    <div class="container">
+        <span v-for="employee in employees" v-bind:key="employee.id" v-bind:value="employee.firstName"></span>
+    </div>
+</nav>

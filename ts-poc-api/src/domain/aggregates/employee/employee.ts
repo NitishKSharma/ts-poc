@@ -13,6 +13,7 @@ import { EmployeeEmployeeIdUpdated } from "./events/employee-employee-id-updated
 import { EmployeeEmploymentStatusUpdated } from "./events/employee-employment-status-updated";
 import { EmployeeFiringReasonUpdated } from "./events/employee-firing-reason-updated";
 
+
 export class Employee extends AggregateRoot<EmployeeState>
 {
     public get createdAt(): number { return this.events.find(t => t.name === (<Object>EmployeeCreated).getTypeName()).occurredAt; }

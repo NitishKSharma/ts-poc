@@ -52,8 +52,8 @@ export class CreateEmployeeController extends Controller
         if (model.employmentStatus)
             employee.updateEmploymentStatus(model.employmentStatus);
         
-        if (model.firingReason)
-            employee.updateEmployeeFiringReason(model.firingReason);
+        // if (model.firingReason)
+        //     employee.updateEmployeeFiringReason(model.firingReason);
            
         await this._employeeRepository.save(employee);
         
@@ -105,5 +105,4 @@ interface Model
     ssn?: number;
     employeeId?: string;
     employmentStatus?: EmployeeEmploymentStatus;
-    firingReason?: string;
 }

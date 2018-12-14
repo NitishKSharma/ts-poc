@@ -1,15 +1,16 @@
-import { ContactService } from "./contact-service";
-import { Contact } from "../../models/contact";
+import { EmployeeService } from "./employee-service";
+import { Employee } from "../../models/employee";
 import { ConfigurationManager } from "@nivinjoseph/n-config";
 import * as Axios from "axios";
 import { given } from "@nivinjoseph/n-defensive";
 import "@nivinjoseph/n-ext";
 import { inject } from "@nivinjoseph/n-ject";
 import { DialogService } from "@nivinjoseph/n-app";
-import { isNumber } from "util";
+import { EmployeeEmploymentStatus } from "../../models/employee-employment-status";
+
 
 @inject("DialogService")
-export class RemoteContactService implements ContactService
+export class RemoteEmployeeService implements EmployeeService
 {
     private readonly _dialogService: DialogService;
     private readonly _api: Axios.AxiosInstance;
@@ -31,16 +32,15 @@ export class RemoteContactService implements ContactService
         });
     }
 
-    public async getContacts(): Promise<ReadonlyArray<Contact>>
+    public async getEmployees(): Promise<ReadonlyArray<Employee>>
     {
         this._dialogService.showLoadingScreen();
 
         try
         {
-            const response = await this._api.get<ReadonlyArray<Contact>>("api/query/getAllContacts");
+            const response = await this._api.get<ReadonlyArray<Employee>>("api/query/getAllEmployees");
             return response.data.map(t =>
             {
-                t.isDeleted = false;
                 return t;
             });
         }
@@ -55,16 +55,15 @@ export class RemoteContactService implements ContactService
         }
     }
 
-    public async getContact(id: string): Promise<Contact>
+    public async getEmployee(id: string): Promise<Employee>
     {
         given(id, "id").ensureHasValue().ensureIsString();
 
         this._dialogService.showLoadingScreen();
         try
         {
-            const response = await this._api.get(`api/query/getContact/${id.trim().toLowerCase()}`);
-            const contact: Contact = response.data;
-            contact.isDeleted = false;
+            const response = await this._api.get(`api/query/getEmployee/${id.trim().toLowerCase()}`);
+            const contact: Employee = response.data;
             return contact;
         }
         catch (error)
@@ -78,27 +77,32 @@ export class RemoteContactService implements ContactService
         }
     }
 
-    public async createContact(fullName: string, phone: number, email: string): Promise<Contact>
-    {        
-        let _phone = Number(phone);        
-        given(fullName, "fullName").ensureHasValue().ensureIsString();
-        given(_phone, "_phone").ensureIsNumber();
+    public async createEmployee(firstName: string, lastName: string, phone: string, email: string, ssn: number, employeeId: string, employmentStatus: EmployeeEmploymentStatus): Promise<Employee>
+    {
+        given(firstName, "firstName").ensureHasValue().ensureIsString();
+        given(lastName, "lastName").ensureHasValue().ensureIsString();
+        given(phone, "_phone").ensureIsString();
         given(email, "email").ensureIsString();
-        
+        given(ssn, "ssn").ensureIsNumber();
+        given(employeeId, "employeeId").ensureIsString();
+
         const command = {
-            fullName: fullName.trim(),
-            phone: _phone,
-            email: email.trim()
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
+            phone: phone.trim(),
+            email: email.trim(),
+            ssn: ssn,
+            employeeId: employeeId.trim(),
+            employmentStatus: employmentStatus,
         };
 
         this._dialogService.showLoadingScreen();
         try
         {
-            const response = await this._api.post("api/command/createContact", command);
-            this._dialogService.showSuccessMessage("Successfully created contact.");
-            const contact: Contact = response.data;
-            contact.isDeleted = false;
-            return contact;
+            const response = await this._api.post("api/command/createEmployee", command);
+            this._dialogService.showSuccessMessage("Successfully created employee.");
+            const employee: Employee = response.data;
+            return employee;
         }
         catch (error)
         {
@@ -111,25 +115,34 @@ export class RemoteContactService implements ContactService
         }
     }
 
-    public async updateContact(id: string, fullName: string, phone: number, email: string): Promise<void>
+    public async updateEmployee(id: string, firstName: string, lastName: string, phone: string, email: string, ssn: number, employeeId: string, firingReason: string): Promise<void>
     {
         given(id, "id").ensureHasValue().ensureIsString();
-        given(fullName, "fullName").ensureHasValue().ensureIsString();
+        given(firstName, "firstName").ensureHasValue().ensureIsString();
+        given(lastName, "lastName").ensureHasValue().ensureIsString();
         given(phone, "phone").ensureIsNumber();
         given(email, "email").ensureIsString();
+        given(ssn, "ssn").ensureIsNumber();
+        given(employeeId, "employeeId").ensureIsString();
+        given(firingReason, "firingReason").ensureIsString();
+
         const command = {
             id: id.trim().toLowerCase(),
-            fullName: fullName.trim(),
-            phone: phone,
-            email: email ? email.trim() : ""
+            firstName: firstName.trim(),
+            lastName: lastName.trim(),
+            phone: phone ? phone.trim() : "",
+            email: email ? email.trim() : "",
+            ssn: ssn,
+            employeeId: employeeId ? employeeId.trim() : "",
+            firingReason: firingReason ? firingReason.trim() : "",
         };
 
         this._dialogService.showLoadingScreen();
         try
         {
             // @ts-ignore
-            const response = await this._api.post("api/command/updateContact", command);
-            this._dialogService.showSuccessMessage("Successfully updated contact.");
+            const response = await this._api.post("api/command/updateEmployee", command);
+            this._dialogService.showSuccessMessage("Successfully updated employee.");
         }
         catch (error)
         {
@@ -142,7 +155,7 @@ export class RemoteContactService implements ContactService
         }
     }
 
-    public async toggleEmployeeStatus(id: string, employeeStatus: boolean): Promise<void>
+    public async hire(id: string): Promise<void>
     {
         given(id, "id").ensureHasValue().ensureIsString();
 
@@ -154,18 +167,9 @@ export class RemoteContactService implements ContactService
 
         try
         {
-            if (employeeStatus)
-            {
-                // @ts-ignore
-                const response = await this._api.post("api/command/setContactEmployee", command);
-                this._dialogService.showSuccessMessage("Successfully hired.");
-            }
-            else
-            {
-                // @ts-ignore
-                const response = await this._api.post("api/command/unSetContactEmployee", command);
-                this._dialogService.showSuccessMessage("Successfully fired.");
-            }
+            // @ts-ignore
+            const response = await this._api.post("api/command/hire", command);
+            this._dialogService.showSuccessMessage("Successfully hired.");
         }
         catch (error)
         {
@@ -178,22 +182,22 @@ export class RemoteContactService implements ContactService
         }
     }
 
-    public async deleteContact(id: string): Promise<void>
+    public async fire(id: string, firingReason: string): Promise<void>
     {
         given(id, "id").ensureHasValue().ensureIsString();
 
         const command = {
-            id: id.trim().toLowerCase()
+            id: id.trim().toLowerCase(),
+            firingReason: firingReason.trim().toLocaleLowerCase()
         };
-
 
         this._dialogService.showLoadingScreen();
 
         try
         {
             // @ts-ignore
-            const response = await this._api.post("api/command/deleteContact", command);
-            this._dialogService.showSuccessMessage("Successfully deleted contact");
+            const response = await this._api.post("api/command/fire", command);
+            this._dialogService.showSuccessMessage("Successfully fired.");
         }
         catch (error)
         {
@@ -206,6 +210,7 @@ export class RemoteContactService implements ContactService
         }
     }
 
+    
     private showErrorMessage(status: number): void
     {
         this._dialogService.showErrorMessage(`There was an error while processing your request. Code ${status}.`);

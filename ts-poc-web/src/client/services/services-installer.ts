@@ -1,7 +1,7 @@
 import { ComponentInstaller, Registry } from "@nivinjoseph/n-ject";
 // import { LocalTodoService } from "./todo/local-todo-service";
 import { RemoteTodoService } from "./todo/remote-todo-service";
-import { RemoteContactService } from "./contact/remote-contact-service";
+import { RemoteEmployeeService } from "./employee/remote-employee-service";
 
 
 export class ServicesInstaller implements ComponentInstaller
@@ -10,6 +10,6 @@ export class ServicesInstaller implements ComponentInstaller
     {
         // registry.registerSingleton("TodoService", LocalTodoService);
         registry.registerSingleton("TodoService", RemoteTodoService);
-        registry.registerSingleton("ContactService", RemoteContactService);
+        registry.registerSingleton("EmployeeService", RemoteEmployeeService);
     }
 }
