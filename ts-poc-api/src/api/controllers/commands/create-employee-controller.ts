@@ -74,7 +74,12 @@ export class CreateEmployeeController extends Controller
     {
         let validator = new Validator<Model>();
 
-        validator.for<string>("fullName")
+        validator.for<string>("firstName")
+            .isRequired()
+            .ensureIsString()
+            .useValidationRule(strval.hasMaxLength(128));
+        
+        validator.for<string>("lastName")
             .isRequired()
             .ensureIsString()
             .useValidationRule(strval.hasMaxLength(128));

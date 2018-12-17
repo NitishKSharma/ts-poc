@@ -1,0 +1,44 @@
+<div class="card">
+    <header class="card-header">
+        <p class="card header-title">
+            {{firstName}}&nbsp;{{lastName}}
+        </p>
+    </header>
+    <div class="card-content">
+        <div class="content">
+            <label class="has-text-weight-semibold">Phone</label>
+            <label class="label">{{phone}}</label>
+        </div>
+        <div class="content">
+            <label class="has-text-weight-semibold">Email</label>
+            <label class="label">{{email}}</label>
+        </div>
+        <div class="content">
+            <label class="has-text-weight-semibold">Social Security Number</label>
+            <label class="label">{{ssn}}</label>
+        </div>
+        <div class="content">
+            <label class="has-text-weight-semibold">Employee ID</label>
+            <label class="label">{{employeeId}}</label>
+        </div>
+        <div class="content">
+            <label class="has-text-weight-semibold">Employment Status</label>
+            <label class="label">{{employmentStatusString}}</label>
+        </div>
+        <div class="content">
+            <label class="has-text-weight-semibold">Firing Reason</label>
+            <label class="label">{{firingReason}}</label>
+        </div>
+        <footer class="card-footer">
+            <a href="#" class="card-footer-item" v-on:click.prevent="editEmployee">Edit</a>
+            <a v-show="employmentStatus === 2" href="#" class="card-footer-item" v-on:click.prevent="hire">Hire</a>
+            <a v-show="employmentStatus === 1" href="#" class="card-footer-item" v-on:click.prevent="startFire">Fire</a>
+        </footer>
+    </div>
+    <form v-show="showFireForm">
+        <input class="textarea" placeholder="detailed reason for firing">
+        <div class="control">
+            <button class="button is-primary" v-on:click.prevent="save">Save</button>
+        </div>
+    </form>
+</div>

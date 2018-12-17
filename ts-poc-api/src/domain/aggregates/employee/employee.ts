@@ -12,6 +12,7 @@ import { EmployeeSsnUpdated } from "./events/employee-ssn-updated";
 import { EmployeeEmployeeIdUpdated } from "./events/employee-employee-id-updated";
 import { EmployeeEmploymentStatusUpdated } from "./events/employee-employment-status-updated";
 import { EmployeeFiringReasonUpdated } from "./events/employee-firing-reason-updated";
+// import { Address } from "./value-objects/address";
 
 
 export class Employee extends AggregateRoot<EmployeeState>
@@ -25,6 +26,7 @@ export class Employee extends AggregateRoot<EmployeeState>
     public get employeeId(): string { return this.state.employeeId; }
     public get employmentStatus(): EmployeeEmploymentStatus { return this.state.employmentStatus; }
     public get firingReason(): string { return this.state.firingReason; }
+    // public get address(): Address { return this.state.address; }
 
 
     public constructor(domainContext: DomainContext, events: ReadonlyArray<DomainEvent<EmployeeState>>)
@@ -39,6 +41,12 @@ export class Employee extends AggregateRoot<EmployeeState>
             EmployeeCreated,
             EmployeeEmailUpdated,
             EmployeePhoneUpdated,
+            EmployeeSsnUpdated,
+            EmployeeEmployeeIdUpdated,
+            EmployeeEmploymentStatusUpdated,
+            EmployeeFired,
+            EmployeeHired,
+            EmployeeFiringReasonUpdated
         ];
 
         return AggregateRoot.deserialize(domainContext, Employee, eventTypes, data as AggregateRootData) as Employee;
@@ -130,5 +138,4 @@ export class Employee extends AggregateRoot<EmployeeState>
         given(this, "this").ensure(t => t.state.employmentStatus === EmployeeEmploymentStatus.notAnEmployee, "Can not fire someone who doesn't work here. Are you crazy or what?");
         this.applyEvent(new EmployeeFired({}));
     }
-
 }

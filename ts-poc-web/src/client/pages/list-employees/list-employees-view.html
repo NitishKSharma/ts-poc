@@ -11,11 +11,11 @@
 </div> -->
 
 
-<nav class="list-employees-view panel">
+<nav class="list-employees panel">
     <p class="panel-heading">
         Employee Management System
     </p>
-    <div class="panel">
+    <div class="panel-block">
         <p class="control">
             <input class="input is-small" type="text" placeholder="search">
         </p>
@@ -26,7 +26,17 @@
         <a>not employees</a>
     </p>
 
-    <div class="container">
-        <span v-for="employee in employees" v-bind:key="employee.id" v-bind:value="employee.firstName"></span>
+    <a class="panel-block" v-for="employee in employees" v-bind:key="employee.id" v-bind:value="employee" v-on:click.prevent="showEmployee">
+        <p>{{employee.firstName}}</p>&nbsp;
+        <p>{{employee.lastName}}</p>        
+    </a>
+
+
+    <div class="container is-fluid add-employee-button">
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <router-link to="/manageEmployee" class="tile is-child notification is-warning box">Add Employee</router-link>
+            </div>
+        </div>
     </div>
 </nav>

@@ -26,11 +26,18 @@ export class ListEmployeesViewModel extends PageViewModel
         this._employees = [];
     }
 
+    public showEmployee()
+    {
+        
+    }
+
 
     protected onEnter(): void
     {
         this._employeeService.getEmployees()
             .then(t => this._employees = t)
             .catch(e => console.log(e));
+        
+        console.log("Got employees");
     }
 }

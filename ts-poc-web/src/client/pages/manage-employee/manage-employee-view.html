@@ -1,0 +1,120 @@
+<!-- <nav class="manage-contact-view panel">
+    <div class=panel-heading>
+        <h1 class="title">
+            {{operation}}
+        </h1>
+    </div>
+    <div class="panel-block">
+        <form>
+            <div class="field">
+                <label class="label">Full Name</label>
+                <div class="control">
+                    <input class="input is-rounded" type="text" v-model="fullName" placeholder="Full Name">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Phone</label>
+                <div class="control">
+                    <input class="input is-rounded" v-model="phone" placeholder="Phone">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Email</label>
+                <div class="control">
+                    <input class="input is-rounded" v-model="email" placeholder="Email">
+                </div>
+            </div>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link" v-on:click.prevent="save">Save</button>
+                </div>
+                <div class="control">
+                    <router-link class="button is-text" to="/contacts">Cancel</router-link>
+                </div>
+            </div>
+        </form>
+    </div>
+</nav> -->
+
+<div class="manage-employee">
+    <form>
+        <div class="field">
+            <label class="label">First Name</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="first name" v-model="firstName">
+            </div>
+            <!-- <p class="help is-danger">{{errors.firstName}}</p> -->
+            <label class="label">Last Name</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="last name" v-model="lastName">
+            </div>
+            <!-- <p class="help is-danger">{{errors.lastName}}</p> -->
+        </div>
+
+        <div class="field">
+            <label class="label">Phone Number</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="phone number" v-model="phone">
+            </div>
+            <!-- <p class="help is-danger">{{errors.phoneNumber}}</p> -->
+        </div>
+
+        <div class="field">
+            <label class="label">Email</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="email" v-model="email">
+            </div>
+            <!-- <p class="help is-danger">{{errors.email}}</p> -->
+        </div>
+
+        <div class="field">
+            <label class="label">Social Security Number</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="social security number" v-model="ssn">
+            </div>
+            <!-- <p class="help is-danger">{{errors.ssn}}</p> -->
+        </div>
+
+        <div class="field">
+            <label class="label">Employee ID</label>
+            <div class="control">
+                <input class="input" type="text" placeholder="employee id" v-model="employeeId">
+            </div>
+            <!-- <p class="help is-danger">{{errors.employeeId}}</p> -->
+        </div>
+
+        <div class="field" v-show="operation === 'Update'">
+            <label class="label">Employment Status</label>
+            <div class="control">
+                <div class="select">
+                    <select>
+                        <option>Employee</option>
+                        <option>Not an Employee</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="field" v-show="operation === 'Update'">
+            <label class="label">Firing Reason</label>
+            <div class="control">
+                <input class="textarea" placeholder="detailed reason for firing">
+            </div>
+            <!-- <p class="help is-danger">{{errors.firingReason}}</p> -->
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary" v-on:click.prevent="save">
+                    Save
+                </button>
+            </div>
+            <div class="control">
+                <router-link class="button is-warning" to="/employees">Cancel</router-link>
+            </div>
+        </div>
+    </form>
+</div>

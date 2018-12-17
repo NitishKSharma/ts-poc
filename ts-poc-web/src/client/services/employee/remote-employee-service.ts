@@ -79,11 +79,12 @@ export class RemoteEmployeeService implements EmployeeService
 
     public async createEmployee(firstName: string, lastName: string, phone: string, email: string, ssn: number, employeeId: string, employmentStatus: EmployeeEmploymentStatus): Promise<Employee>
     {
+        let _ssn = Number(ssn);
         given(firstName, "firstName").ensureHasValue().ensureIsString();
         given(lastName, "lastName").ensureHasValue().ensureIsString();
-        given(phone, "_phone").ensureIsString();
+        given(phone, "phone").ensureIsString();
         given(email, "email").ensureIsString();
-        given(ssn, "ssn").ensureIsNumber();
+        given(_ssn, "_ssn").ensureIsNumber();
         given(employeeId, "employeeId").ensureIsString();
 
         const command = {
@@ -91,7 +92,7 @@ export class RemoteEmployeeService implements EmployeeService
             lastName: lastName.trim(),
             phone: phone.trim(),
             email: email.trim(),
-            ssn: ssn,
+            ssn: _ssn,
             employeeId: employeeId.trim(),
             employmentStatus: employmentStatus,
         };
